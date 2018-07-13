@@ -24,6 +24,8 @@ class Person extends NgRestModel
 {
     use SoftDeleteTrait;
     
+    public $adminLists = [];
+    
     /**
      * @inheritdoc
      */
@@ -40,6 +42,9 @@ class Person extends NgRestModel
         return 'api-smsnewsletter-person';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -49,6 +54,11 @@ class Person extends NgRestModel
         });
     }
     
+    /**
+     * 
+     * @param string $numberToParse
+     * @return string
+     */
     public function parsePhoneNumberToRegion($numberToParse)
     {
         $number = PhoneNumberUtil::getInstance()->parse($numberToParse, strtoupper(Module::getInstance()->defaultNumberRegion));
@@ -57,6 +67,11 @@ class Person extends NgRestModel
     }
     
     
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \yii\base\Model::attributeHints()
+     */
     public function attributeHints()
     {
         $defaultRegion = Module::getInstance()->defaultNumberRegion;
@@ -76,6 +91,7 @@ class Person extends NgRestModel
             'lastname' => Yii::t('app', 'Lastname'),
             'phone' => Yii::t('app', 'Phone'),
             'is_deleted' => Yii::t('app', 'Is Deleted'),
+            'adminLists' => 'Lists',
         ];
     }
 
@@ -114,12 +130,14 @@ class Person extends NgRestModel
         ];
     }
     
-    public $adminLists = [];
-    
     public function ngRestExtraAttributeTypes()
     {
         return [
-            'adminLists' => ['class' => CheckboxRelationActiveQuery::class, 'query' => $this->getLists(), 'labelField' => ['title']],  
+            'adminLists' => [
+                'class' => CheckboxRelationActiveQuery::class,
+                'query' => $this->getLists(),
+                'labelField' => ['title'],
+            ],  
         ];
     }
 
@@ -132,13 +150,6 @@ class Person extends NgRestModel
             ['list', ['firstname', 'lastname', 'phone']],
             [['create', 'update'], ['firstname', 'lastname', 'phone', 'adminLists']],
             ['delete', true],
-        ];
-    }
-    
-    public function ngRestRelations()
-    {
-        return [
-            ['label' => 'Lists', 'apiEndpoint' => ListModel::ngRestApiEndpoint(), 'dataProvider' => $this->getLists()],  
         ];
     }
     

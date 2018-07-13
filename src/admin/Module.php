@@ -49,12 +49,12 @@ class Module extends \luya\admin\base\Module
         return (new \luya\admin\components\AdminMenuBuilder($this))
         ->node('Person', 'sms')
             ->group('Group')
-                ->itemApi('Persons', 'smsnewsletteradmin/person/index', 'label', 'api-smsnewsletter-person')
-                ->itemApi('Lists', 'smsnewsletteradmin/list/index', 'label', 'api-smsnewsletter-list')
+                ->itemApi('Persons', 'smsnewsletteradmin/person/index', 'person', 'api-smsnewsletter-person')
+                ->itemApi('Lists', 'smsnewsletteradmin/list/index', 'list', 'api-smsnewsletter-list')
                 //->itemApi('List Person Ref', 'smsnewsletteradmin/list-person-ref/index', 'label', 'api-smsnewsletter-listpersonref')
             ->group('Log')
-                ->itemApi('Message', 'smsnewsletteradmin/log-message/index', 'label', 'api-smsnewsletter-logmessage')
-                ->itemApi('Person', 'smsnewsletteradmin/log-message-person/index', 'label', 'api-smsnewsletter-logmessageperson');
+                ->itemApi('Message', 'smsnewsletteradmin/log-message/index', 'info', 'api-smsnewsletter-logmessage')
+                ->itemApi('Person', 'smsnewsletteradmin/log-message-person/index', 'info', 'api-smsnewsletter-logmessageperson');
         
     }
 }

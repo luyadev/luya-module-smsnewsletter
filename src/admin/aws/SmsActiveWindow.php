@@ -28,7 +28,7 @@ class SmsActiveWindow extends ActiveWindow
      */
     public function defaultLabel()
     {
-        return 'Sms';
+        return 'SMS';
     }
 
     /**
@@ -112,6 +112,6 @@ class SmsActiveWindow extends ActiveWindow
             ];
         }
         
-        return $data;
+        return ['message' => $message, 'list' => $data];
     }
 }
