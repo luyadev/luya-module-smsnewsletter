@@ -1,5 +1,5 @@
 {
-    "name" : "luyadev/luya-module-newsletter",
+    "name" : "luyadev/luya-module-smsnewsletter",
     "description" : "SMS Newseltter module for ASPSMS gateway.",
     "type" : "luya-module",
     "keywords" : ["luya"],
