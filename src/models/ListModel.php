@@ -84,12 +84,14 @@ class ListModel extends NgRestModel
         ];
     }
     
+    /*
     public function ngRestRelations()
     {
         return [
             ['label' => 'Persons', 'apiEndpoint' => Person::ngRestApiEndpoint(), 'dataProvider' => $this->getPersons()],
         ];
     }
+    */
     
     public function ngRestActiveWindows()
     {
