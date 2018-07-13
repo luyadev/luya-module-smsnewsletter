@@ -10,7 +10,13 @@ In order to add the modules to your project go into the modules section of your 
 return [
     'modules' => [
         // ...
-        'smsnewsletter' => 'luya\smsnewsletter\admin\Module',
+        'smsnewsletteradmin' => [
+            'class' => 'luya\smsnewsletter\admin\Module',
+            'originName' => 'My Sender Name',
+            'defaultNumberRegion' => 'ch',
+            'aspsmsKey' => '****', // see aspsms.com
+            'aspsmsPassword' => '****', // see aspsms.com
+        ],
         // ...
     ],
 ];
