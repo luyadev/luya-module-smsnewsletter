@@ -1,7 +1,7 @@
 {
-    "name" : "VENDOR/NAME",
-    "description" : "",
-    "type" : "luya-extension",
+    "name" : "luyadev/luya-module-newsletter",
+    "description" : "SMS Newseltter module for ASPSMS gateway.",
+    "type" : "luya-module",
     "keywords" : ["luya"],
     "license": "MIT",
     "authors" : [
