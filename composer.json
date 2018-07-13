@@ -1,0 +1,27 @@
+{
+    "name" : "VENDOR/NAME",
+    "description" : "",
+    "type" : "luya-extension",
+    "keywords" : ["luya"],
+    "license": "MIT",
+    "authors" : [
+        {
+            "name": "Basil Suter",
+            "email": "basil@nadar.io"
+        }
+    ],
+    "require": {
+        "luyadev/luya-core" : "~1.0",
+        "luyadev/luya-module-admin": "~1.2",
+        "nadar/aspsms": "^1.0",
+        "giggsey/libphonenumber-for-php": "^8.9"
+    },
+    "require-dev" : {
+        "luyadev/luya-testsuite" : "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "luya\\smsnewsletter\\": "src/"
+        }
+    }
+}
