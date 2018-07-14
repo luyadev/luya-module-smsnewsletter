@@ -73,7 +73,7 @@ class Module extends \luya\admin\base\Module
     public function getMenu()
     {
         return (new \luya\admin\components\AdminMenuBuilder($this))
-        ->node('sms.node.title', 'person')
+        ->node('sms.node.title', 'message')
             ->group('sms.group.manage')
                 ->itemApi('sms.group.manage.persons', 'smsnewsletteradmin/person/index', 'person', 'api-smsnewsletter-person')
                 ->itemApi('sms.group.manage.lists', 'smsnewsletteradmin/list/index', 'list', 'api-smsnewsletter-list')
