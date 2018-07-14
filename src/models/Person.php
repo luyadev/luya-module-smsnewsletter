@@ -76,7 +76,7 @@ class Person extends NgRestModel
     {
         $defaultRegion = Module::getInstance()->defaultNumberRegion;
         return [
-            'phone' => $defaultRegion ? "If the numbers are entered without nationl prefix, national prefix '{$defaultRegion}' will be used." : 'Enter the phone numbers with national prefix like +41 79 123 45 65',
+            'phone' => $defaultRegion ? Module::t('sms.model.phone.help_with', [$defaultRegion]) : Module::t('sms.model.phone.help_without'),
         ];
     }
     
@@ -86,12 +86,12 @@ class Person extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'firstname' => Yii::t('app', 'Firstname'),
-            'lastname' => Yii::t('app', 'Lastname'),
-            'phone' => Yii::t('app', 'Phone'),
-            'is_deleted' => Yii::t('app', 'Is Deleted'),
-            'adminLists' => 'Lists',
+            'id' => Module::t('sms.model.person.id'),
+            'firstname' => Module::t('sms.model.person.firstname'),
+            'lastname' => Module::t('sms.model.person.lastname'),
+            'phone' => Module::t('sms.model.person.phone'),
+            'is_deleted' => Module::t('sms.model.person.is_deleted'),
+            'adminLists' => Module::t('sms.model.person.lists'),
         ];
     }
 
@@ -114,7 +114,7 @@ class Person extends NgRestModel
      */
     public function genericSearchFields()
     {
-        return ['firstname', 'lastname'];
+        return ['firstname', 'lastname', 'phone'];
     }
 
     /**

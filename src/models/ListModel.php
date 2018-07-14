@@ -5,6 +5,7 @@ namespace luya\smsnewsletter\models;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\smsnewsletter\admin\aws\SmsActiveWindow;
+use luya\smsnewsletter\admin\Module;
 
 /**
  * List.
@@ -39,7 +40,7 @@ class ListModel extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'title' => Yii::t('app', 'Title'),
+            'title' => Module::t('sms.model.listmodel.title'),
         ];
     }
 
@@ -84,15 +85,11 @@ class ListModel extends NgRestModel
         ];
     }
     
-    /*
-    public function ngRestRelations()
-    {
-        return [
-            ['label' => 'Persons', 'apiEndpoint' => Person::ngRestApiEndpoint(), 'dataProvider' => $this->getPersons()],
-        ];
-    }
-    */
-    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \luya\admin\ngrest\base\NgRestModel::ngRestActiveWindows()
+     */
     public function ngRestActiveWindows()
     {
         return [
@@ -100,11 +97,19 @@ class ListModel extends NgRestModel
         ];
     }
     
+    /**
+     * 
+     * @return \yii\db\ActiveQuery
+     */
     public function getLogMessages()
     {
         return $this->hasMany(LogMessage::class, ['list_id' => 'id']);
     }
 
+    /**
+     * 
+     * @return \yii\db\ActiveQuery
+     */
     public function getPersons()
     {
         return $this->hasMany(Person::class, ['id' => 'person_id'])->viaTable(ListPersonRef::tableName(), ['list_id' => 'id']);

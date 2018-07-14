@@ -2,7 +2,6 @@
 
 namespace luya\smsnewsletter\admin\aws;
 
-use Yii;
 use luya\admin\ngrest\base\ActiveWindow;
 use Aspsms\Aspsms;
 use luya\smsnewsletter\models\LogMessage;
@@ -28,7 +27,7 @@ class SmsActiveWindow extends ActiveWindow
      */
     public function defaultLabel()
     {
-        return 'SMS';
+        return Module::t('sms.aw.defaultlabel');
     }
 
     /**
