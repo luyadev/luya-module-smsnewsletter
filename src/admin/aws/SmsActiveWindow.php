@@ -64,6 +64,13 @@ class SmsActiveWindow extends ActiveWindow
         ]);
     }
     
+    /**
+     * Send the message.
+     * 
+     * @param string $message
+     * @param string $origin
+     * @return array|boolean[]|string[]|array[]
+     */
     public function callbackSend($message, $origin)
     {
         $recipients = [];
@@ -99,6 +106,11 @@ class SmsActiveWindow extends ActiveWindow
         return $this->sendSuccess('Sheduled for sending in the queue');
     }
 
+    /**
+     * 
+     * @param integer $id
+     * @return array
+     */
     public function callbackLoadMessageLog($id)
     {
         $message = LogMessage::find()->where(['id' => $id])->with(['logMessagePersons.person'])->one();
