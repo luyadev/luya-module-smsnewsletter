@@ -1,6 +1,7 @@
 <?php
 
 use luya\admin\ngrest\aw\CallbackFormWidget;
+use luya\smsnewsletter\admin\Module;
 
 /**
  * SmsActiveWindow Index View.
@@ -27,7 +28,7 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
     <div class="col-md-6">
         <div class="row">
             <div class="col">
-                <p class="lead">Latest Messages</p>
+                <p class="lead"><?= Module::t('sms.aw.title.latestmessages'); ?></p>
                 <ul class="list-group">
                 <?php foreach ($model->logMessages as $log): ?>
                     <a ng-class="{'active':currentId==<?= $log->id; ?>}" class="list-group-item list-group-item-action" ng-click="openLogMessage(<?= $log->id; ?>)"><?= date("d.m.Y", $log->timestamp); ?> <small><?= $log->message; ?></small></a>
@@ -35,15 +36,15 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
                 </ul>
             </div>
             <div class="col" ng-show="detail">
-                <p>Delivery Status <button type="button" ng-click="openLogMessage(currentId)" class="btn btn-icon btn-success float-right"><i class="material-icons">refresh</i></button></p>
+                <p><?= Module::t('sms.aw.title.deliverystatus'); ?><button type="button" ng-click="openLogMessage(currentId)" class="btn btn-icon btn-success float-right"><i class="material-icons">refresh</i></button></p>
                 <p><small><code>{{detail.message}}</code></small></p>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Person</th>
-                            <th>Delivery Status</th>
-                            <th>Created</th>
-                            <th>Notification Date</th>
+                            <th><?= Module::t('sms.aw.status.person'); ?></th>
+                            <th><?= Module::t('sms.aw.status.deliverystatus'); ?></th>
+                            <th><?= Module::t('sms.aw.status.created'); ?></th>
+                            <th><?= Module::t('sms.aw.status.notified'); ?></th>
                         </tr>
                     </thead>
                     <tr ng-repeat="status in list">
@@ -61,13 +62,13 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
         
     </div>
     <div class="col-md-6">
-        <p class="lead">Send message</p>
-        <?php $form = CallbackFormWidget::begin(['callback' => 'send', 'buttonValue' => 'Send', 'options' => ['reloadWindowOnSuccess' => true]]); ?>
-        <?= $form->field('origin', 'Origin')->textInput(); ?>
-        <?= $form->field('message', 'Message')->textarea(); ?>
-        <p ng-show="params.message"><small class="float-right">{{params.message.length}} chars</small></p>
+        <p class="lead"><?= Module::t('sms.aw.title.send'); ?><span class="badge badge-secondary float-right"><?= Module::t('sms.aw.status.credits', ['credits_count' => $credits]); ?></span></p>
+        <?php $form = CallbackFormWidget::begin(['callback' => 'send', 'buttonValue' =>  Module::t('sms.aw.form.submit'), 'options' => ['reloadWindowOnSuccess' => true]]); ?>
+        <?= $form->field('origin', Module::t('sms.aw.form.origin'))->textInput(); ?>
+        <?= $form->field('message', Module::t('sms.aw.form.message'))->textarea(); ?>
+        <p ng-show="params.message"><small class="float-right"><?= Module::t('sms.aw.form.chars'); ?></small></p>
         <?php $form::end(); ?>
-        <p class="lead mt-5">Recipients</p>
+        <p class="lead mt-5"><?= Module::t('sms.aw.title.recipients'); ?></p>
         <ul class="list-group">
             <?php foreach ($model->persons as $person): ?>
             <li class="list-group-item"><?= $person->firstname; ?> <?= $person->lastname; ?> (<?= $person->phone; ?>)</li>

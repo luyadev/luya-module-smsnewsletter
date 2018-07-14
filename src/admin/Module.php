@@ -2,28 +2,29 @@
 
 namespace luya\smsnewsletter\admin;
 
+use yii\base\InvalidConfigException;
+
 /**
- * Szeneaarau Admin Module.
- *
- * File has been created with `module/create` command. 
+ * SMS Newsletter admin module.
  * 
- * @author
+ * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class Module extends \luya\admin\base\Module
 {
+    /**
+     * @inheritdoc
+     */
     public $apis = [
         'api-smsnewsletter-person' => 'luya\smsnewsletter\admin\apis\PersonController',
         'api-smsnewsletter-list' => 'luya\smsnewsletter\admin\apis\ListController',
         'api-smsnewsletter-listpersonref' => 'luya\smsnewsletter\admin\apis\ListPersonRefController',
         'api-smsnewsletter-logmessage' => 'luya\smsnewsletter\admin\apis\LogMessageController',
         'api-smsnewsletter-logmessageperson' => 'luya\smsnewsletter\admin\apis\LogMessagePersonController',
-        
     ];
     
     /**
      * @var string the parse the region if not international number is provided. Example:
-     * 
      * + DE
      * + CH
      * + EN
@@ -40,21 +41,66 @@ class Module extends \luya\admin\base\Module
      */
     public $originName;
     
+    /**
+     * @var string The key for the aspsms API.
+     */
     public $aspsmsKey;
     
+    /**
+     * @var string The password for the aspsms API.
+     */
     public $aspsmsPassword;
     
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \luya\base\Module::init()
+     */
+    public function init()
+    {
+        parent::init();
+        
+        if (!$this->aspsmsKey || !$this->aspsmsPassword) {
+            throw new InvalidConfigException("The aspsmsKey and aspsmsPassword must be configured.");
+        }
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \luya\admin\base\Module::getMenu()
+     */
     public function getMenu()
     {
         return (new \luya\admin\components\AdminMenuBuilder($this))
-        ->node('Person', 'sms')
-            ->group('Group')
-                ->itemApi('Persons', 'smsnewsletteradmin/person/index', 'person', 'api-smsnewsletter-person')
-                ->itemApi('Lists', 'smsnewsletteradmin/list/index', 'list', 'api-smsnewsletter-list')
-                //->itemApi('List Person Ref', 'smsnewsletteradmin/list-person-ref/index', 'label', 'api-smsnewsletter-listpersonref')
-            ->group('Log')
-                ->itemApi('Message', 'smsnewsletteradmin/log-message/index', 'info', 'api-smsnewsletter-logmessage')
-                ->itemApi('Person', 'smsnewsletteradmin/log-message-person/index', 'info', 'api-smsnewsletter-logmessageperson');
+        ->node('sms.node.title', 'person')
+            ->group('sms.group.manage')
+                ->itemApi('sms.group.manage.persons', 'smsnewsletteradmin/person/index', 'person', 'api-smsnewsletter-person')
+                ->itemApi('sms.group.manage.lists', 'smsnewsletteradmin/list/index', 'list', 'api-smsnewsletter-list')
+            ->group('sms.group.log')
+                ->itemApi('sms.group.log.message', 'smsnewsletteradmin/log-message/index', 'info', 'api-smsnewsletter-logmessage')
+                ->itemApi('sms.group.log.persons', 'smsnewsletteradmin/log-message-person/index', 'info', 'api-smsnewsletter-logmessageperson');
         
+    }
+    
+    /**
+     * 
+     */
+    public static function onLoad()
+    {
+        self::registerTranslation('smsnewsletteradmin', static::staticBasePath() . '/messages', [
+            'smsnewsletteradmin' => 'smsnewsletteradmin.php',
+        ]);
+    }
+    
+    /**
+     * 
+     * @param string $message
+     * @param array $params
+     * @return string
+     */
+    public static function t($message, array $params = [])
+    {
+        return parent::baseT('smsnewsletteradmin', $message, $params);
     }
 }

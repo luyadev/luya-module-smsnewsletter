@@ -50,6 +50,7 @@ class SmsActiveWindow extends ActiveWindow
     {
         return $this->render('index', [
             'model' => $this->model,
+            'credits' => $this->getAspsms(null)->credits(),
         ]);
     }
     
