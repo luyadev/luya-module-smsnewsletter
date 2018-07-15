@@ -70,7 +70,7 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
     <div class="col-md-6">
         <p class="lead"><?= Module::t('sms.aw.title.send'); ?><span class="badge badge-secondary float-right"><?= Module::t('sms.aw.status.credits', ['credits_count' => $credits]); ?></span></p>
         <?php $form = CallbackFormWidget::begin(['callback' => 'send', 'buttonValue' =>  Module::t('sms.aw.form.submit'), 'options' => ['reloadWindowOnSuccess' => true]]); ?>
-        <?= $form->field('origin', Module::t('sms.aw.form.origin'))->textInput(); ?>
+        <?= $form->field('origin', Module::t('sms.aw.form.origin'))->textInput()->initValue(Module::getInstance()->originName); ?>
         <?= $form->field('message', Module::t('sms.aw.form.message'))->textarea(); ?>
         <p ng-show="params.message"><small class="float-right"><?= Module::t('sms.aw.form.chars'); ?></small></p>
         <?php $form::end(); ?>

@@ -4,6 +4,8 @@
 
 Add persons, add lists, send SMS messages to the persons in the list. Including the delivery status for every message.
 
+> Requires admin 1.2.2 and will be released along with 1.2.2 admin module.
+
 ## Installation
 
 Install the extension through composer:

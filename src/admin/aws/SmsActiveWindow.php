@@ -32,6 +32,16 @@ class SmsActiveWindow extends ActiveWindow
     }
 
     /**
+     * Returns the active window titel for the current model.
+     * 
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->model->title;
+    }
+    
+    /**
      * Default icon if not set in the ngrest model.
      *
      * @var string The icon name from goolges material icon set (https://material.io/icons/)
