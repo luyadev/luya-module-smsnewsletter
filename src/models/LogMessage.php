@@ -14,6 +14,8 @@ use luya\admin\ngrest\base\NgRestModel;
  * @property integer $list_id
  * @property text $message
  * @property integer $timestamp
+ * @property integer $admin_user_id
+ * @property string $origin
  */
 class LogMessage extends NgRestModel
 {
@@ -53,8 +55,8 @@ class LogMessage extends NgRestModel
     {
         return [
             [['list_id', 'message', 'timestamp'], 'required'],
-            [['list_id', 'timestamp'], 'integer'],
-            [['message'], 'string'],
+            [['list_id', 'timestamp', 'admin_user_id'], 'integer'],
+            [['message', 'origin'], 'string'],
         ];
     }
 
@@ -74,7 +76,9 @@ class LogMessage extends NgRestModel
         return [
             'list_id' => 'number',
             'message' => 'textarea',
+            'origin' => 'text',
             'timestamp' => 'number',
+            'admin_user_id' => 'number',
         ];
     }
 
@@ -84,8 +88,8 @@ class LogMessage extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['list_id', 'message', 'timestamp']],
-            [['create', 'update'], ['list_id', 'message', 'timestamp']],
+            ['list', ['list_id', 'message', 'timestamp', 'admin_user_id', 'origin']],
+            [['create', 'update'], ['list_id', 'message', 'timestamp', 'admin_user_id', 'origin']],
             ['delete', false],
         ];
     }

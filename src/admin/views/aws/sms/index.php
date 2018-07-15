@@ -31,14 +31,14 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
                 <p class="lead"><?= Module::t('sms.aw.title.latestmessages'); ?></p>
                 <ul class="list-group">
                 <?php foreach ($model->logMessages as $log): ?>
-                    <a ng-class="{'active':currentId==<?= $log->id; ?>}" class="list-group-item list-group-item-action" ng-click="openLogMessage(<?= $log->id; ?>)"><?= date("d.m.Y", $log->timestamp); ?> <small><?= $log->message; ?></small></a>
+                    <a ng-class="{'active':currentId==<?= $log->id; ?>}" class="list-group-item list-group-item-action" ng-click="openLogMessage(<?= $log->id; ?>)"><?= strftime("%x - %X", $log->timestamp); ?><br /><small><?= $log->message; ?></small></a>
                 <?php endforeach; ?>
                 </ul>
             </div>
             <div class="col" ng-show="detail">
                 <p><?= Module::t('sms.aw.title.deliverystatus'); ?><button type="button" ng-click="openLogMessage(currentId)" class="btn btn-icon btn-success float-right"><i class="material-icons">refresh</i></button></p>
-                <p><small><code>{{detail.message}}</code></small></p>
-                <table class="table table-bordered table-hover">
+                
+                <table class="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
                             <th><?= Module::t('sms.aw.status.person'); ?></th>
@@ -49,14 +49,20 @@ zaa.bootstrap.register('SmsController', ['$scope', function($scope) {
                     </thead>
                     <tr ng-repeat="status in list">
                         <td>{{ status.person.firstname}} {{status.person.lastname}}</td>
-                        <td>{{ status.tracking.deliveryStatus }}</td>
-                        <td>{{ status.log.timestamp }}</td>
-                        <td>
-                            <span class="badge badge-pill"
-                                ng-class="{'badge-success':status.tracking.deliveryStatusBool, 'badge-danger': !status.tracking.deliveryStatusBool}"
-                            >{{ status.tracking.notificationDate }}</span>
+                        <td><span class="badge badge-pill"
+                                ng-class="{'badge-success':status.tracking.deliveryStatusBool, 'badge-danger': !status.tracking.deliveryStatusBool}">{{ status.tracking.deliveryStatus }}</span></td>
+                        <td><small>{{ status.tracking.submissionDateTimestamp * 1000 | date:'medium'}}</small></td>
+                        <td><small>{{ status.tracking.notificationDateTimestamp * 1000 | date:'medium'}}</small></td>
                     </tr>
                 </table>
+                <div class="card">
+                  <div class="card-body" style="white-space: pre-line;">
+                    {{detail.message}}
+                  </div>
+                  <div class="card-footer text-muted">
+                    <small>{{detail.timestamp * 1000 | date:'medium' }} as {{ detail.origin}}</small>
+                  </div>
+                </div>
             </div>
         </div>
         

@@ -2,8 +2,9 @@
 
 namespace luya\smsnewsletter\admin\aws;
 
-use luya\admin\ngrest\base\ActiveWindow;
+use Yii;
 use Aspsms\Aspsms;
+use luya\admin\ngrest\base\ActiveWindow;
 use luya\smsnewsletter\models\LogMessage;
 use luya\smsnewsletter\models\LogMessagePerson;
 use luya\smsnewsletter\admin\Module;
@@ -69,7 +70,7 @@ class SmsActiveWindow extends ActiveWindow
      * 
      * @param string $message
      * @param string $origin
-     * @return array|boolean[]|string[]|array[]
+     * @return array
      */
     public function callbackSend($message, $origin)
     {
@@ -91,6 +92,8 @@ class SmsActiveWindow extends ActiveWindow
         $logMessage->message = $message;
         $logMessage->timestamp = time();
         $logMessage->list_id = $this->model->id;
+        $logMessage->admin_user_id = Yii::$app->adminuser->id;
+        $logMessage->origin = $origin;
         
         if ($logMessage->save()) {
             foreach ($log as $tracking => $person) {
