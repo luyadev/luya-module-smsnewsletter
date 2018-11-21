@@ -4,11 +4,12 @@ namespace luya\smsnewsletter\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\admin\ngrest\plugins\SelectRelationActiveQuery;
 
 /**
  * Log Message Person.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property integer $person_id
@@ -41,7 +42,7 @@ class LogMessagePerson extends NgRestModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'person_id' => Yii::t('app', 'Person ID'),
+            'person_id' => Yii::t('app', 'Person'),
             'log_message_id' => Yii::t('app', 'Log Message ID'),
             'tracking_id' => Yii::t('app', 'Tracking ID'),
             'timestamp' => Yii::t('app', 'Timestamp'),
@@ -75,10 +76,10 @@ class LogMessagePerson extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'person_id' => 'number',
-            'log_message_id' => 'number',
+            'person_id' => ['class' => SelectRelationActiveQuery::class, 'query' => $this->getPerson(), 'labelField' => ['firstname', 'lastname']],
+            'log_message_id' => ['class' => SelectRelationActiveQuery::class, 'query' => $this->getLogMessage(), 'labelField' => ['message']],
             'tracking_id' => 'text',
-            'timestamp' => 'number',
+            'timestamp' => 'datetime',
         ];
     }
 
@@ -88,8 +89,7 @@ class LogMessagePerson extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['person_id', 'log_message_id', 'tracking_id', 'timestamp']],
-            [['create', 'update'], ['person_id', 'log_message_id', 'tracking_id', 'timestamp']],
+            ['list', ['timestamp', 'person_id', 'tracking_id']],
             ['delete', false],
         ];
     }
@@ -97,5 +97,10 @@ class LogMessagePerson extends NgRestModel
     public function getPerson()
     {
         return $this->hasOne(Person::class, ['id' => 'person_id']);
+    }
+
+    public function getLogMessage()
+    {
+        return $this->hasOne(LogMessage::class, ['id' => 'log_message_id']);
     }
 }

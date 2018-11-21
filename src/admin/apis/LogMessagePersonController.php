@@ -4,8 +4,8 @@ namespace luya\smsnewsletter\admin\apis;
 
 /**
  * Log Message Person Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  */
 class LogMessagePersonController extends \luya\admin\ngrest\base\Api
 {

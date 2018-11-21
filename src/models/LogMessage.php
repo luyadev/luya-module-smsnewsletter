@@ -4,11 +4,13 @@ namespace luya\smsnewsletter\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\admin\models\User;
+use luya\admin\ngrest\plugins\SelectRelationActiveQuery;
 
 /**
  * Log Message.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property integer $list_id
@@ -42,9 +44,10 @@ class LogMessage extends NgRestModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'list_id' => Yii::t('app', 'List ID'),
+            'list_id' => Yii::t('app', 'List'),
             'message' => Yii::t('app', 'Message'),
             'timestamp' => Yii::t('app', 'Timestamp'),
+            'admin_user_id' => Yii::t('app', 'User')
         ];
     }
 
@@ -74,11 +77,11 @@ class LogMessage extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'list_id' => 'number',
+            'list_id' => ['class' => SelectRelationActiveQuery::class, 'query' => $this->getList(), 'labelField' => ['title']],
             'message' => 'textarea',
             'origin' => 'text',
-            'timestamp' => 'number',
-            'admin_user_id' => 'number',
+            'timestamp' => 'datetime',
+            'admin_user_id' => ['class' => SelectRelationActiveQuery::class, 'query' => $this->getAdminUser(), 'labelField' => ['firstname', 'lastname']],
         ];
     }
 
@@ -88,8 +91,7 @@ class LogMessage extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['list_id', 'message', 'timestamp', 'admin_user_id', 'origin']],
-            [['create', 'update'], ['list_id', 'message', 'timestamp', 'admin_user_id', 'origin']],
+            ['list', ['list_id', 'timestamp', 'message', 'admin_user_id']],
             ['delete', false],
         ];
     }
@@ -97,5 +99,15 @@ class LogMessage extends NgRestModel
     public function getLogMessagePersons()
     {
         return $this->hasMany(LogMessagePerson::class, ['log_message_id' => 'id']);
+    }
+
+    public function getList()
+    {
+        return $this->hasOne(ListModel::class, ['id' => 'list_id']);
+    }
+
+    public function getAdminUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'admin_user_id']);
     }
 }

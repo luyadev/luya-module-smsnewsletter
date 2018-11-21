@@ -4,8 +4,8 @@ namespace luya\smsnewsletter\admin\apis;
 
 /**
  * List Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  */
 class ListController extends \luya\admin\ngrest\base\Api
 {

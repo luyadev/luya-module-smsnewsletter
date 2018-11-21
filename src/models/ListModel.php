@@ -9,10 +9,10 @@ use luya\smsnewsletter\admin\Module;
 
 /**
  * List.
- * 
+ *
  * Using ListModel instead of List as list is a php reserved word.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property string $title
  */
@@ -86,32 +86,32 @@ class ListModel extends NgRestModel
     }
     
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \luya\admin\ngrest\base\NgRestModel::ngRestActiveWindows()
      */
     public function ngRestActiveWindows()
     {
         return [
-            ['class' => SmsActiveWindow::class], 
+            ['class' => SmsActiveWindow::class],
         ];
     }
     
     /**
-     * 
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getLogMessages()
     {
-        return $this->hasMany(LogMessage::class, ['list_id' => 'id']);
+        return $this->hasMany(LogMessage::class, ['list_id' => 'id'])->orderBy(['timestamp' => SORT_DESC]);
     }
 
     /**
-     * 
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getPersons()
     {
-        return $this->hasMany(Person::class, ['id' => 'person_id'])->viaTable(ListPersonRef::tableName(), ['list_id' => 'id']);
+        return $this->hasMany(Person::class, ['id' => 'person_id'])->viaTable(ListPersonRef::tableName(), ['list_id' => 'id'])->orderBy(['firstname' => SORT_ASC, 'lastname' => SORT_ASC]);
     }
 }

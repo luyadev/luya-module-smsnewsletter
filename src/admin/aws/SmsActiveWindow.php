@@ -8,11 +8,12 @@ use luya\admin\ngrest\base\ActiveWindow;
 use luya\smsnewsletter\models\LogMessage;
 use luya\smsnewsletter\models\LogMessagePerson;
 use luya\smsnewsletter\admin\Module;
+use yii\base\InvalidCallException;
 
 /**
  * Sms Active Window.
  *
- * File has been created with `aw/create` command. 
+ * File has been created with `aw/create` command.
  */
 class SmsActiveWindow extends ActiveWindow
 {
@@ -33,7 +34,7 @@ class SmsActiveWindow extends ActiveWindow
 
     /**
      * Returns the active window titel for the current model.
-     * 
+     *
      * @return string
      */
     public function getTitle()
@@ -48,12 +49,12 @@ class SmsActiveWindow extends ActiveWindow
      */
     public function defaultIcon()
     {
-        return 'sms';    
+        return 'sms';
     }
 
     /**
      * The default action which is going to be requested when clicking the ActiveWindow.
-     * 
+     *
      * @return string The response string, render and displayed trough the angular ajax request.
      */
     public function index()
@@ -65,7 +66,7 @@ class SmsActiveWindow extends ActiveWindow
     }
     
     /**
-     * 
+     *
      * @return Aspsms
      */
     public function getAspsms($origin)
@@ -77,7 +78,7 @@ class SmsActiveWindow extends ActiveWindow
     
     /**
      * Send the message.
-     * 
+     *
      * @param string $message
      * @param string $origin
      * @return array
@@ -87,7 +88,7 @@ class SmsActiveWindow extends ActiveWindow
         $recipients = [];
         $log = [];
         foreach ($this->model->persons as $person) {
-            $trackingNr = uniqid(md5($person->id . $this->model->id));
+            $trackingNr = md5(uniqid(md5($person->id . $this->model->id))); // ensure its a-z0-9 value
             $recipients[$trackingNr] = $person->phone;
             $log[$trackingNr] = $person;
         }
@@ -116,11 +117,11 @@ class SmsActiveWindow extends ActiveWindow
             }
         }
         
-        return $this->sendSuccess('Sheduled for sending in the queue');
+        return $this->sendSuccess('Sheduled for sending in the queue.');
     }
 
     /**
-     * 
+     *
      * @param integer $id
      * @return array
      */
@@ -129,12 +130,18 @@ class SmsActiveWindow extends ActiveWindow
         $message = LogMessage::find()->where(['id' => $id])->with(['logMessagePersons.person'])->one();
         
         $data = [];
-        foreach ($message->logMessagePersons as $logPerson) {
-            $data[] = [
-                'log' => $logPerson,
-                'person' => $logPerson->person,
-                'tracking' => $this->getAspsms(null)->deliveryStatus($logPerson->tracking_id),
-            ];
+        try {
+            $lastNumber = null;
+            foreach ($message->logMessagePersons as $logPerson) {
+                $lastNumber = $logPerson->tracking_id;
+                $data[] = [
+                    'log' => $logPerson,
+                    'person' => $logPerson->person,
+                    'tracking' => $this->getAspsms(null)->deliveryStatus($logPerson->tracking_id),
+                ];
+            }
+        } catch (\Exception $e) {
+            throw new InvalidCallException("Unable to find the tracking number '{$lastNumber}'. ASPSMS Error: " . $e->getMessage());
         }
         
         return ['message' => $message, 'list' => $data];

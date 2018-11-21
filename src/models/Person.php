@@ -11,8 +11,8 @@ use luya\smsnewsletter\admin\Module;
 
 /**
  * Person.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property string $firstname
@@ -49,13 +49,13 @@ class Person extends NgRestModel
     {
         parent::init();
         
-        $this->on(self::EVENT_BEFORE_VALIDATE, function() {
+        $this->on(self::EVENT_BEFORE_VALIDATE, function () {
             $this->phone = $this->parsePhoneNumberToRegion($this->phone);
         });
     }
     
     /**
-     * 
+     *
      * @param string $numberToParse
      * @return string
      */
@@ -68,7 +68,7 @@ class Person extends NgRestModel
     
     
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \yii\base\Model::attributeHints()
      */
@@ -137,7 +137,7 @@ class Person extends NgRestModel
                 'class' => CheckboxRelationActiveQuery::class,
                 'query' => $this->getLists(),
                 'labelField' => ['title'],
-            ],  
+            ],
         ];
     }
 

@@ -6,7 +6,7 @@ use yii\base\InvalidConfigException;
 
 /**
  * SMS Newsletter admin module.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -31,7 +31,7 @@ class Module extends \luya\admin\base\Module
      * + GB
      * + FR
      * + ...
-     * 
+     *
      * @see https://github.com/giggsey/libphonenumber-for-php
      */
     public $defaultNumberRegion;
@@ -52,7 +52,7 @@ class Module extends \luya\admin\base\Module
     public $aspsmsPassword;
     
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \luya\base\Module::init()
      */
@@ -66,7 +66,7 @@ class Module extends \luya\admin\base\Module
     }
     
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \luya\admin\base\Module::getMenu()
      */
@@ -80,11 +80,10 @@ class Module extends \luya\admin\base\Module
             ->group('sms.group.log')
                 ->itemApi('sms.group.log.message', 'smsnewsletteradmin/log-message/index', 'info', 'api-smsnewsletter-logmessage')
                 ->itemApi('sms.group.log.persons', 'smsnewsletteradmin/log-message-person/index', 'info', 'api-smsnewsletter-logmessageperson');
-        
     }
     
     /**
-     * 
+     *
      */
     public static function onLoad()
     {
@@ -94,7 +93,7 @@ class Module extends \luya\admin\base\Module
     }
     
     /**
-     * 
+     *
      * @param string $message
      * @param array $params
      * @return string

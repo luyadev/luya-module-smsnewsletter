@@ -4,8 +4,8 @@ namespace luya\smsnewsletter\admin\controllers;
 
 /**
  * Person Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  */
 class PersonController extends \luya\admin\ngrest\base\Controller
 {

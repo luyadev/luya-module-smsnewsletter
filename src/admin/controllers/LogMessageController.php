@@ -4,8 +4,8 @@ namespace luya\smsnewsletter\admin\controllers;
 
 /**
  * Log Message Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  */
 class LogMessageController extends \luya\admin\ngrest\base\Controller
 {
