@@ -1,6 +1,8 @@
 # LUYA SMS Newsletter module with ASPSMS
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Total Downloads](https://poser.pugx.org/luyadev/luya-module-smsnewsletter/downloads)](https://packagist.org/packages/luyadev/luya-module-smsnewsletter)
+[![Latest Stable Version](https://poser.pugx.org/luyadev/luya-module-smsnewsletter/v/stable)](https://packagist.org/packages/luyadev/luya-module-smsnewsletter)
 
 Add persons, add lists, send SMS messages to the persons in the list. Including the delivery status for every message.
 
